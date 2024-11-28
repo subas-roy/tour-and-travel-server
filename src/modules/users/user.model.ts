@@ -40,6 +40,12 @@ const userSchema = new Schema<IUser>({
   },
 });
 
+// hook -> pre
+userSchema.pre('find', function (this, next) {
+  this.find({ role: { $eq: 'admin' } });
+  next();
+});
+
 // Create Model
 const User = model<IUser>('User', userSchema);
 export default User;
