@@ -1,7 +1,8 @@
 import { model, Schema } from 'mongoose';
+import { IUser } from './user.interface';
 
 // create schema
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
   name: {
     type: String,
     required: [true, 'Please provide your name'],
@@ -14,7 +15,7 @@ const userSchema = new Schema({
     required: true,
     validate: {
       validator: function (value: string) {
-        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2-6,}$/.test(value);
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
       },
       message: '{VALUE} is not a valid email',
     },
@@ -27,11 +28,17 @@ const userSchema = new Schema({
       values: ['user', 'admin'],
       message: '{VALUE} is not valid, please provide a valid role',
     },
+    default: 'user',
     required: true,
   },
-  userStatus: { type: String, enum: ['active', 'inactive'], required: true },
+  userStatus: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'active',
+    required: true,
+  },
 });
 
 // Create Model
-const User = model('User', userSchema);
+const User = model<IUser>('User', userSchema);
 export default User;
