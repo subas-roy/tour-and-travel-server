@@ -1,7 +1,6 @@
 // req and res manage
 
 import { Request, Response } from 'express';
-import User from './user.model';
 import { userService } from './user.service';
 
 const createUser = async (req: Request, res: Response) => {
@@ -25,14 +24,21 @@ const createUser = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const payload = req.body;
+  try {
+    const result = await userService.getUser();
 
-  const result = await User.create(payload);
-
-  res.json({
-    message: 'User created successfully',
-    data: result,
-  });
+    res.send({
+      status: true,
+      message: 'Users getting successfully',
+      result,
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
 };
 
 export const userController = {
