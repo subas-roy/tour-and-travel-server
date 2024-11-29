@@ -47,12 +47,12 @@ const userSchema = new Schema<IUser>({
 // });
 
 // hook -> post
-userSchema.post('find', function (docs, next) {
-  docs.forEach((doc: IUser) => {
-    doc.name = doc.name.toUpperCase();
-  });
-  next();
-});
+// userSchema.post('find', function (docs, next) {
+//   docs.forEach((doc: IUser) => {
+//     doc.name = doc.name.toUpperCase();
+//   });
+//   next();
+// });
 
 // Create Model
 const User = model<IUser>('User', userSchema);
