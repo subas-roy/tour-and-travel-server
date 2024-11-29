@@ -41,8 +41,16 @@ const userSchema = new Schema<IUser>({
 });
 
 // hook -> pre
-userSchema.pre('find', function (this, next) {
-  this.find({ role: { $eq: 'admin' } });
+// userSchema.pre('find', function (this, next) {
+//   this.find({ role: { $eq: 'admin' } });
+//   next();
+// });
+
+// hook -> post
+userSchema.post('find', function (docs, next) {
+  docs.forEach((doc: IUser) => {
+    doc.name = doc.name.toUpperCase();
+  });
   next();
 });
 
